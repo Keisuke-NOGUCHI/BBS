@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>掲示板</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'chat.css' %}">
+  </head>
+  <body>
+    <header>
+      <div class="header-body"> 
+        <img src="https://file4-d.kuku.lu/files/20210107-0825_aab39fde698027241e383b3f9e590365.png">
+        <h1><i>B</i>BS<br>46</h1>
+        <br>
+        <h2><基礎演習></h2>
+      </div>
+    </header>
+    <div class="body-content">
+      <nav>
+        <br>
+        <form action="{% url 'basic' %}" method="post">
+          {% csrf_token %}
+          <div>
+            <label for="channelInput">教科</label>
+            <select id="channelInput" name="channel">
+              <option value="basic">基礎演習</option>
+            </select>
+          </div>
+          <div>
+           <label for="textInput">チャット</label>
+           <textarea id="textInput" name="text_basic" rows="3"></textarea>
+          </div>
+          <div>
+           <button type="submit">Submit</button>
+          </div>
+          <br>
+        </form>
+      </nav>
+      <main>
+        {% if comments %}
+        {% for comment in comments %}
+        <div>
+          <div>
+            <small>[{{ comment.posted_at }}]</small>
+          </div>
+          <div>
+            {{ comment.text | linebreaksbr }}
+          </div>
+          <p>
+          <!-- ルーティングで指定したdeleteへリンク先を指定 -->
+           <a href="{% url 'delete_ba' comment.id %}">削除</a>
+          </p>
+          <hr>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No comment.</p>
+        {% endif %}
+        <div class="Top-page">
+          <a href="{% url 'subjects' %}">前へ</a>
+          <a href="{% url 'top' %}">Topページへ</a>
+        </div>
+      </main>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  </body>
+</html>
